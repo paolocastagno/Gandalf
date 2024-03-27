@@ -2,9 +2,9 @@ version: "3.9"
 
 services:
   player_1:
-    image: rope-client:${TAG:-latest}
+    image: paolocastagno/rope-client:${TAG:-latest}
     command:
-      - -config=/config.json
+      - -config=/config_1.json
     volumes: # test monroe config
       - type: bind
         source: ${PLAYER_1_CONF} # Client configuration
@@ -14,11 +14,12 @@ services:
         source: ${PLAYER_1_APP} # Application configuration
         target: /appconfig_1.toml
         read_only: true
+      - "./:/res"
         
   player_2:
-    image: rope-client:${TAG:-latest}
+    image: paolocastagno/rope-client:${TAG:-latest}
     command:
-      - -config=/config.json
+      - -config=/config_2.json
     volumes: # test monroe config
       - type: bind
         source: ${PLAYER_2_CONF} # Client configuration
@@ -28,19 +29,21 @@ services:
         source: ${PLAYER_2_APP} # Application configuration
         target: /appconfig_2.toml
         read_only: true    
+      - "./:/res"
           
   srv_trn:
-    image: rope-server:${TAG:-latest}
+    image: paolocastagno/rope-server:${TAG:-latest}
     privileged: true
     command:
       - -listen=0.0.0.0:4040
       - -idDevice=serv_trn
-      - -queueLen=1000000
+      - -queueLen=9
       - -workers=1
       - -loggerAddress=${LOGGER}
       - -loggerToken=${TOKEN}
       - -loggerBucket=${BUCKET}
       - -appConfig=/appconfig.toml
+      - -log=true
     ports:
       - "4343:4040/udp"
     volumes:
@@ -52,17 +55,18 @@ services:
       - logger
 
   srv_md:
-    image: rope-server:${TAG:-latest}
+    image: paolocastagno/rope-server:${TAG:-latest}
     privileged: true
     command:
       - -listen=0.0.0.0:4040
-      - -idDevice=srv_md0
-      - -queueLen=1000000
-      - -workers=1
+      - -idDevice=srv_md
+      - -queueLen=40
+      - -workers=10
       - -loggerAddress=${LOGGER}
       - -loggerToken=${TOKEN}
       - -loggerBucket=${BUCKET}
       - -appConfig=/appconfig.toml
+      - -log=true
     volumes:
       - type: bind
         source: ${SERVERMD_APP}
