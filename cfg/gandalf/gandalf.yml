@@ -1,0 +1,98 @@
+version: "3.9"
+
+services:
+  player_1:
+    image: paolocastagno/rope-client:${TAG:-latest}
+    command:
+      - -config=/config_1.json
+    volumes: # test monroe config
+      - type: bind
+        source: ${PLAYER_1_CONF} # Client configuration
+        target: /config_1.json
+        read_only: true
+      - type: bind
+        source: ${PLAYER_1_APP} # Application configuration
+        target: /appconfig_1.toml
+        read_only: true
+      - "./:/res"
+        
+  player_2:
+    image: paolocastagno/rope-client:${TAG:-latest}
+    command:
+      - -config=/config_2.json
+    volumes: # test monroe config
+      - type: bind
+        source: ${PLAYER_2_CONF} # Client configuration
+        target: /config_2.json
+        read_only: true
+      - type: bind
+        source: ${PLAYER_2_APP} # Application configuration
+        target: /appconfig_2.toml
+        read_only: true    
+      - "./:/res"
+          
+  srv_trn:
+    image: paolocastagno/rope-server:${TAG:-latest}
+    privileged: true
+    command:
+      - -listen=0.0.0.0:4040
+      - -idDevice=serv_trn
+      - -queueLen=9
+      - -workers=1
+      - -loggerAddress=${LOGGER}
+      - -loggerToken=${TOKEN}
+      - -loggerBucket=${BUCKET}
+      - -appConfig=/appconfig.toml
+      - -log=true
+    ports:
+      - "4343:4040/udp"
+    volumes:
+      - type: bind
+        source: ${SERVERTRN_APP}
+        target: /appconfig.toml
+        read_only: true  
+    depends_on:
+      - logger
+
+  srv_md:
+    image: paolocastagno/rope-server:${TAG:-latest}
+    privileged: true
+    command:
+      - -listen=0.0.0.0:4040
+      - -idDevice=srv_md
+      - -queueLen=40
+      - -workers=10
+      - -loggerAddress=${LOGGER}
+      - -loggerToken=${TOKEN}
+      - -loggerBucket=${BUCKET}
+      - -appConfig=/appconfig.toml
+      - -log=true
+    volumes:
+      - type: bind
+        source: ${SERVERMD_APP}
+        target: /appconfig.toml
+        read_only: true
+    ports:
+      - "8083:4040/udp"
+
+  # First time setup run: docker-compose exec logger influx setup
+  logger:
+    image: influxdb:alpine
+    ports:
+      - "8086:8086/tcp"
+    volumes:
+      - "./influxdbv2:/var/lib/influxdb2"
+      - "./:/res"
+      - type: bind
+        source: ./.env
+        target: /.env
+        read_only: true
+      - type: bind
+        source: ./scripts/influx_connect.sh
+        target: /influx_connect.sh
+        read_only: false
+      - type: bind
+        source: ./scripts/get_csv.sh
+        target: /get_csv.sh
+        read_only: false
+    

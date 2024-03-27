@@ -1,0 +1,18 @@
+{
+	"IdDevice": "ID",
+	"destinations": ["DST_1", "DST_2"],
+	"RequestsPerSec": RPS,
+	"MaxConcurrentConnections": 20000,
+	"TestDuration": "TIME",
+	"Timeout": "40s",
+	"AppCfg": "/APPCFG",
+	"Logger":
+	{
+		"loggerAddress": "LOGGER",
+		"loggerBatchSize": 5000,
+		"loggerBucket": "BUCKET",
+		"loggerFlushInterval": 5000,
+		"loggerOrg": "unito",
+		"loggerToken": "TOCKEN"
+	}
+}

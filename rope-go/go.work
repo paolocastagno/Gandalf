@@ -1,0 +1,10 @@
+go 1.20
+
+replace github.com/paolocastagno/RoPE/RoPE/util => ./util
+
+use (
+	./client
+	./routing
+	./server
+	./util
+)

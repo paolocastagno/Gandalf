@@ -1,0 +1,18 @@
+{
+	"IdDevice": "player_1",
+	"destinations": ["130.192.212.176:4343", "172.16.0.211:8083"],
+	"RequestsPerSec": 10,
+	"MaxConcurrentConnections": 20000,
+	"TestDuration": "36000",
+	"Timeout": "40s",
+	"AppCfg": "/appconfig.toml",
+	"Logger":
+	{
+		"loggerAddress": "130.192.212.176:8086",
+		"loggerBatchSize": 5000,
+		"loggerBucket": "measures_game",
+		"loggerFlushInterval": 5000,
+		"loggerOrg": "unito",
+		"loggerToken": "Jcwn7Cf9w46D3z5gfYc8XlD6tQWIng5EJWoXUqW-YxprkG-gMEoFR8Sa3L99xkwY_xXCmeoDxY8S8v7btW9GXw=="
+	}
+}

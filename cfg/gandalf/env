@@ -1,0 +1,15 @@
+# Use this as a template whith run.sh
+# InfluxDB configuration
+LOGGER=LGR
+TOKEN=TKN
+BUCKET=BKT
+
+#Client's configuration
+PLAYER_1_CONF=PLR_1_C
+PLAYER_1_APP=PLR_1_A
+PLAYER_2_CONF=PLR_2_C
+PLAYER_2_APP=PLR_2_A
+
+# Servers' configuration
+SERVERTRN_APP=SRV_TRN_A
+SERVERMD_APP=SRV_MD_A

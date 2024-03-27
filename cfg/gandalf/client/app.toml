@@ -1,0 +1,18 @@
+[logic]
+name = "game"
+
+[variables]
+destination = ["DST_1", "DST_2"]
+requestSize = 100
+
+[game]
+player_id = PLID
+round = "RND_DRTN"
+app_timeout="A_TO"
+alpha = ALPHA
+step = 0.01
+max_step = 0.1
+min_step = 0.001
+d_fact = 2.0
+m_fact = 1.1
+bin_size="1ms"

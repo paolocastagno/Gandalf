@@ -1,0 +1,16 @@
+[logic]
+name = "game"
+
+[variables]
+destination = ["130.192.212.176:4343" "172.16.0.211:8083"]
+requestSize = 100
+
+[game]
+player_id = 2
+round = "5m"
+alpha = 0.5
+step = 0.01
+max_step = 0.1
+d_fact = 2
+m_fact = 1.1
+corr_min = 0.1

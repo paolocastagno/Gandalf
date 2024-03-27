@@ -1,0 +1,7 @@
+[logic]
+name = "fixed"
+
+[variables]
+destination = "proxy:4040"
+requestSize = 100
+responseSize = 100
